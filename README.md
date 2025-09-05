@@ -5,7 +5,7 @@
 ### Contracts
 
 - **`src/ERC20.sol`**: Basic ERC20 implementation used by `MyToken`.
-- **`src/MyToken.sol`**: Concrete ERC20 whose constructor mints the provided supply to the deployer.
+- **`src/MyToken.sol`**: Concrete ERC20 whose constructor mints the provided supply to a specified address (the factory passes `msg.sender`).
 - **`src/Factory.sol`**: Exposes `deployToken(string _name, string _symbol, uint8 decimals, uint256 _totalSupply)` and deploys `MyToken` via `CREATE2`.
 
 ### CREATE2 salt behavior
@@ -74,15 +74,28 @@ forge create src/Factory.sol:Factory \
 
 Record the deployed factory address from the output.
 
+### Network: Sonic Mainnet
+
+- **Chain ID**: 146
+- **Explorer**: `https://sonicscan.org`
+- **Factory (deployed)**: `0x20d4a5D6E757af18D2B5e16b21F07105060193D9`
+
+Example environment setup:
+
+```bash
+export RPC_URL=<sonic_mainnet_rpc>
+export PRIVATE_KEY=<deployer_private_key>
+```
+
 ### Deploy a token via the Factory
 
 Use `cast send` to call `deployToken` on the factory:
 
 ```bash
-cast send <FACTORY_ADDRESS> \
+cast send 0x20d4a5D6E757af18D2B5e16b21F07105060193D9 \
   "deployToken(string,string,uint8,uint256)" \
   "My Token" "MTK" 18 1000000 \
-  --rpc-url $RPC_URL \
+  --chain 146 --rpc-url $RPC_URL \
   --private-key $PRIVATE_KEY
 ```
 
@@ -101,7 +114,7 @@ cast receipt <TX_HASH> --rpc-url $RPC_URL | cat
 
 ### Verifying contracts
 
-If you verify on a block explorer, ensure your compiler settings match `foundry.toml`. For CREATE2 deployments, verification is the same as standard deployments; constructor args are the typical `(name, symbol, decimals, totalSupplyParam)`.
+If you verify on a block explorer, ensure your compiler settings match `foundry.toml`. For CREATE2 deployments, verification is the same as standard deployments; constructor args are `(name, symbol, decimals, totalSupplyParam, to)` where `to` is the recipient of the initial mint (set to the caller by the factory).
 
 ### License
 

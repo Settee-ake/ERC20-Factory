@@ -9,9 +9,10 @@ contract Factory {
         external
         returns (address)
     {
+        address to = msg.sender;
         address token = address(
-            new MyToken{salt: keccak256(abi.encode(msg.sender, block.timestamp, _name, _symbol, decimals))}(
-                _name, _symbol, decimals, _totalSupply * decimals
+            new MyToken{salt: keccak256(abi.encode(to, block.timestamp, _name, _symbol, decimals))}(
+                _name, _symbol, decimals, _totalSupply * decimals, to
             )
         );
         return token;
