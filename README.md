@@ -78,7 +78,7 @@ Record the deployed factory address from the output.
 
 - **Chain ID**: 146
 - **Explorer**: `https://sonicscan.org`
-- **Factory (deployed)**: `0x2EA3E93f864a4848098673a8274a20bA40b6D90a`
+- **Factory (deployed)**: `0x1AAEFfa57c73082840A39D7965bd87cbb10509b2`
 
 Example environment setup:
 
@@ -92,7 +92,7 @@ export PRIVATE_KEY=<deployer_private_key>
 Use `cast send` to call `deployToken` on the factory:
 
 ```bash
-cast send 0x2EA3E93f864a4848098673a8274a20bA40b6D90a \
+cast send 0x1AAEFfa57c73082840A39D7965bd87cbb10509b2 \
   "deployToken(string,string,uint8,uint256)" \
   "My Token" "MTK" 18 1000000 \
   --chain 146 --rpc-url $RPC_URL \

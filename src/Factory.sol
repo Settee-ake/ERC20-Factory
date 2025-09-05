@@ -12,7 +12,7 @@ contract Factory {
         address to = msg.sender;
         address token = address(
             new MyToken{salt: keccak256(abi.encode(to, block.timestamp, _name, _symbol, decimals))}(
-                _name, _symbol, decimals, _totalSupply * decimals, to
+                _name, _symbol, decimals, _totalSupply * (10 ** decimals), to
             )
         );
         return token;
